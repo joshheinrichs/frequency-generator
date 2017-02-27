@@ -5,6 +5,10 @@ use std::io::Write;
 use std::f64;
 use clap::{Arg, App};
 
+fn generate_sample(sample: u64, frequency: f64, amplitude: f64, sample_rate: u64) -> i16 {
+    ((2.0f64 * f64::consts::PI * sample as f64 * frequency / sample_rate as f64).sin() * 2.0f64.powf(15.0) * amplitude) as i16
+}
+
 fn main() {
     let matches = App::new("frequency-generator")
                           .version("0.1.0")
@@ -51,14 +55,10 @@ fn main() {
     let output = matches.value_of("output").unwrap();
     println!("output: {}", output);
 
-    let mut out_file = std::fs::File::create(output).unwrap();
-    let mut data = Vec::new();    
-    for i in 0..((sample_rate as f64 * length) as i64) {
-        let signal = (2.0f64 * f64::consts::PI * i as f64 * frequency / sample_rate as f64).sin();
-        let sample = signal * 2.0f64.powf(15.0) * amplitude;
-        data.push(sample as i16);
-    }
+    let num_samples = (sample_rate as f64 * length) as u64;
+    let data = (0..num_samples).map(|i| generate_sample(i, frequency, amplitude, sample_rate)).collect::<Vec<i16>>();
 
+    let mut out_file = std::fs::File::create(output).unwrap();
     let mut encoder = vorbis::Encoder::new(1, sample_rate, vorbis::VorbisQuality::Midium).expect("Error in creating encoder");
     out_file.write(encoder.encode(&data).expect("Error in encoding.").as_slice()).expect("Error in writing");
     out_file.write(encoder.flush().expect("Error in flushing.").as_slice()).expect("Error in writing");
