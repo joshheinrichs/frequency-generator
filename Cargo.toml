@@ -1,0 +1,8 @@
+[package]
+name = "frequency-generator"
+version = "0.1.0"
+authors = ["Josh Heinrichs <joshiheinrichs@gmail.com>"]
+
+[dependencies]
+vorbis = "0.1.0"
+clap = "2.20.5"
