@@ -14,7 +14,8 @@ fn main() {
                           .version("0.1.0")
                           .author("Josh Heinrichs <joshiheinrichs@gmail.com>")
                           .about("Generatres audio files with specific frequencies")
-                          .arg(Arg::with_name("FREQUENCY")
+                          .arg(Arg::with_name("frequency")
+                               .value_name("FREQUENCY")
                           	   .help("The frequency of the audio file to generate in Hz")
                           	   .required(true)
                           	   .index(1))
@@ -30,7 +31,7 @@ fn main() {
                           	   .value_name("AMPLITUDE")
                           	   .help("Loudness of the file between 0 and 1")
                           	   .default_value("0.75"))
-                          .arg(Arg::with_name("sample rate")
+                          .arg(Arg::with_name("sample_rate")
                           	   .short("r")
                           	   .long("sample-rate")
                           	   .value_name("RATE")
@@ -50,7 +51,7 @@ fn main() {
     println!("length: {}s", length);
     let amplitude = matches.value_of("amplitude").unwrap().parse::<f64>().unwrap();
     println!("amplitude: {}", amplitude);
-    let sample_rate = matches.value_of("sample rate").unwrap().parse::<u64>().unwrap();
+    let sample_rate = matches.value_of("sample_rate").unwrap().parse::<u64>().unwrap();
     println!("sample rate: {}", sample_rate);
     let output = matches.value_of("output").unwrap();
     println!("output: {}", output);
