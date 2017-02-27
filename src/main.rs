@@ -45,7 +45,7 @@ fn main() {
                           	   .default_value("output.ogg"))
                           .get_matches();
 
-    let frequency = matches.value_of("FREQUENCY").unwrap().parse::<f64>().unwrap();
+    let frequency = matches.value_of("frequency").unwrap().parse::<f64>().unwrap();
     println!("frequency: {}Hz", frequency);
     let length = matches.value_of("length").unwrap().parse::<f64>().unwrap();
     println!("length: {}s", length);
